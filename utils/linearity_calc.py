@@ -7,6 +7,7 @@ import cv2
 import time
 import numpy as np
 import torch
+import gdown
 
 from utils.linearity.inference_model import IQAModel
 
@@ -19,6 +20,14 @@ b = None
 def get_linearity_model(device):
     global k, b
     device = torch.device(device)
+
+    if not os.path.exists('utils/linearity/models/p1q2.pth'):
+        url = 'https://drive.google.com/uc?id=1HFyhei4D5Qd-PU3eubFt7lDXC6hzLg-5'
+        output = 'utils/linearity/models/p1q2.pth'
+        gdown.download(url, output)
+    if not os.path.exists('utils/linearity/models/p1q2.pth'):
+        print("Weights were not downloaded")
+        raise ValueError
 
     model = IQAModel().to(device)
     checkpoint = torch.load('utils/linearity/models/p1q2.pth', map_location=device)
