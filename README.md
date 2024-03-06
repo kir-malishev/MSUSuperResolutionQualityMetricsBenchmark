@@ -23,7 +23,10 @@ python BuildGraphs.py
 ## Using without Super-Resolution Quality Metrics Dataset
 
 ```python3
-from utils import Metric
+from utils import Metric, beautify_dict
+
+#Show Metrics' List
+print(list(beautify_dict.keys()))
 
 metric_name = ""
 device = "cuda:0"
