@@ -22,6 +22,8 @@ def get_linearity_model(device):
     device = torch.device(device)
 
     if not os.path.exists('utils/linearity/models/p1q2.pth'):
+        if not os.path.exists('utils/linearity/models/'):
+            os.makedirs('utils/linearity/models/')
         url = 'https://drive.google.com/uc?id=1HFyhei4D5Qd-PU3eubFt7lDXC6hzLg-5'
         output = 'utils/linearity/models/p1q2.pth'
         gdown.download(url, output)
