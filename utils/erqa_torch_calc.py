@@ -7,7 +7,7 @@ import cv2
 import time
 import numpy as np
 import torch
-from erqa_pytorch.erqa_pytorch import ERQA
+from utils.erqa_torch.erqa_torch import ERQA
 
 def process_image(image: np.array, device):
     image = image.astype(np.float64) / 255 * 2 - 1
