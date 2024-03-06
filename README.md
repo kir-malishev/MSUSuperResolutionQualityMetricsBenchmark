@@ -3,7 +3,7 @@
 ## Using for Super-Resolution Quality Metrics Dataset
 * Put stats.json into "stats" directory
 * Write "add_metric(<metric_name>, <device_name>)" to MetricsCheck.py for each metric you want calculate
-* Write "calc_all_metrics(<force_to_recalcute_metric>, <repair_metrics' values>, <list \of datasets>)" to MetricsCheck.py
+* Write "calc_all_metrics(<force_to_recalcute_metric>, <repair_metrics' values>, <list of datasets>)" to MetricsCheck.py
 
 To install the dependencies into your conda environment with `python 3.9`, run:
 ```bash
