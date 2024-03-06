@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link href="https://www.highcharts.com/highslide/highslide.css" rel="stylesheet" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/highcharts-more.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/heatmap.js"></script>
+        <script type="text/javascript" src="https://code.highcharts.com/6/modules/exporting.js"></script>
+    </head>
+    <body style="margin:0;padding:0">
+                <div id="container" style="height:100%;">Loading....</div>
+
+
+    <script>
+        $(function(){
+
+
+
+
+
+            Highcharts.setOptions({"global": {}, "lang": {}});
+            var option = {"chart": {"renderTo": "container", "type": "bar", "height": "100%"}, "colors": {}, "credits": {"enabled": false}, "drilldown": {}, "exporting": {}, "labels": {}, "legend": {"enabled": true}, "loading": {}, "navigation": {}, "pane": {}, "plotOptions": {}, "series": {}, "subtitle": {}, "title": {"text": "VSR Benchmark"}, "tooltip": {}, "xAxis": {"categories": ["Subjective Score", "ERQA (ver 2.0) (FR; over YUV)", "ERQA (ver 1.1) (FR; over YUV)", "ERQA (ver 1.0) (FR; over YUV)", "ST-LPIPS (VGG) (FR; over RGB)", "ST-LPIPS (Alex) (FR; over RGB)", "TOPIQ (FR; over RGB)", "DISTS (FR; over YUV)", "A-DISTS (FR; over YUV)", "LPIPS (VGG) (FR; over YUV)", "AHIQ (FR; over YUV)", "TOPIQ pretrained on PIPAL (FR; over RGB)", "LPIPS (Alex) (FR; over YUV)", "PieAPP with TensorFlow (FR; over YUV)", "FSIM (FR; over YUV)", "VIF (FR; over YUV)", "ERQA_torch (FR; over YUV)", "VMAF OpenCL1 (FR; over Y)", "VMAF OpenCL0 (FR; over Y)", "VMAF Legacy OpenCL1 (FR; over Y)", "VMAF Legacy OpenCL0 (FR; over Y)", "VMAF Legacy (FR; over Y)", "VMAF (FR; over Y)", "Q-Align (Image; NR; over RGB)", "3SSIM (FR; over Y)", "MSSSIM_fast (FR; over YUV)", "SSIM (FR; over YUV)", "MSSSIM OpenCL1 (FR; over YUV)", "MSSSIM OpenCL0 (FR; over YUV)", "MSSSIM_cuda (FR; over Y)", "MSSSIM_precise (FR; over YUV)", "Q-Align (Video; NR; over RGB)", "MSAD (FR; over Y)", "PSNR (FR; over Y)", "VQM (FR; over Y)", "DBCNN (NR; over RGB)", "PaQ-2-PiQ (NR; over YUV)", "MSE (FR; over Y)", "PSNR (FR; over YUV)", "3SSIM OpenCL1 (FR; over Y)", "3SSIM OpenCL0 (FR; over Y)", "MANIQA + reflect padding (FR; over YUV)", "BI PSNR (FR; over Y)", "MANIQA + edge padding (FR; over YUV)", "TRES (NR; over RGB)", "TRES pretrained on KONIQ (NR; over RGB)", "ClipIQA+ (NR; over RGB)", "MUSIQ pretrained on PaQ-2-PiQ (NR; over RGB)", "ClipIQA+ ResNet50 (NR; over RGB)", "TOPIQ pretrained on SPAQ (NR; over RGB)", "Noise Estimation (NR; over Y)", "TOPIQ (NR; over RGB)", "MUSIQ pretrained on KONIQ (NR; over RGB)", "MUSIQ (NR; over RGB)", "Blurring (NR; over Y)", "MDTVSFA (NR; over Y)", "Linearity (NR; over YUV)", "MUSIQ pretrained on SPAQ (NR; over RGB)", "ClipIQA+ ViT-L-14 (NR; over RGB)", "Blurring_delta (NR; over YUV)", "TOPIQ pretrained on FACE (NR; over RGB)", "TOPIQ (NR Aesthetic; over RGB)", "HyperIQA (NR; over YUV)", "ILNIQE (NR; over RGB)", "MUSIQ pretrained on AVA (NR; over RGB)", "ClipIQA (NR; over RGB)", "VSFA (NR; over YUV)", "TOPIQ pretrained on FLIVE (NR; over RGB)", "TRES pretrained on FLIVE (NR; over RGB)", "Blocking (NR; over Y)", "VILA (NR Aesthetic; over YUV)", "TOPIQ pretrained on Res50 (NR Aesthetic; over RGB)", "Q-Align (Image; NR Aesthetic; over RGB)", "NIMA (NR; over YUV)", "DFM (NR; over Y)"]}, "yAxis": {"title": {"text": "Correlation with Confidence Intervals"}}};
+
+
+ 
+
+            var chart = new Highcharts.Chart(option);
+
+            var data = [{"data": [1, 0.90047, 0.8792, 0.87276, 0.84125, 0.83038, 0.82376, 0.81101, 0.78843, 0.76901, 0.78513, 0.71937, 0.61688, 0.70505, 0.57742, 0.63515, 0.56923, 0.33194, 0.33193, 0.33212, 0.33212, 0.33, 0.32982, 0.56153, 0.43891, 0.26216, 0.38824, 0.27942, 0.27942, 0.30932, 0.2851, 0.55088, 0.40754, 0.47537, 0.37539, 0.3828, 0.56696, 0.256, 0.48096, 0.35003, 0.35003, 0.4705, 0.41662, 0.34102, 0.47625, 0.47611, 0.53518, 0.49213, 0.48413, 0.42762, 0.2777, 0.41425, 0.35682, 0.35682, 0.47886, 0.44047, 0.42114, 0.30985, 0.35287, 0.42032, 0.35994, 0.38994, 0.34257, 0.29107, 0.2333, 0.24711, 0.21381, 0.19921, 0.23637, 0.1795, -0.0217, 0.00938, -0.0167, -0.11402, -0.14569], "type": "bar", "id": "1", "color": "#b95144", "name": "Pearson"}, {"data": [1, 0.88084, 0.85332, 0.83727, 0.82605, 0.8175, 0.80978, 0.80103, 0.77788, 0.7698, 0.76449, 0.74984, 0.72413, 0.68968, 0.65073, 0.60779, 0.59678, 0.58702, 0.58702, 0.58702, 0.58702, 0.58688, 0.5865, 0.58568, 0.57427, 0.57027, 0.57017, 0.56997, 0.56997, 0.56939, 0.56621, 0.56574, 0.56422, 0.56414, 0.56052, 0.55936, 0.55876, 0.55808, 0.55794, 0.5577, 0.5577, 0.557, 0.54329, 0.52999, 0.51984, 0.51888, 0.51512, 0.50243, 0.49217, 0.4851, 0.48474, 0.47662, 0.46041, 0.46041, 0.45959, 0.43515, 0.43113, 0.41406, 0.40466, 0.39321, 0.38211, 0.37638, 0.37144, 0.32381, 0.2882, 0.28437, 0.27703, 0.2557, 0.21408, 0.19076, 0.06261, 0.0336, 0.01387, -0.1091, -0.13053], "type": "bar", "id": "2", "color": "#e7e8d2", "name": "Spearman"}, {"data": [1, 0.7381, 0.71549, 0.69433, 0.7025, 0.69192, 0.65825, 0.63661, 0.61592, 0.60245, 0.61496, 0.59812, 0.57637, 0.54986, 0.50289, 0.46441, 0.43555, 0.43699, 0.43699, 0.43699, 0.43699, 0.43699, 0.43603, 0.44644, 0.41198, 0.41246, 0.41486, 0.41246, 0.41246, 0.4115, 0.40813, 0.43939, 0.41005, 0.41342, 0.40909, 0.45142, 0.43699, 0.39995, 0.39947, 0.39899, 0.39899, 0.43507, 0.38408, 0.41583, 0.39274, 0.39418, 0.39033, 0.41005, 0.38504, 0.38264, 0.38408, 0.38167, 0.35618, 0.35618, 0.35859, 0.34704, 0.34271, 0.32732, 0.31626, 0.29702, 0.2975, 0.29942, 0.29846, 0.22631, 0.23208, 0.22343, 0.22824, 0.20563, 0.15753, 0.14839, 0.05411, 0.04834, 0.00903, -0.06662, -0.0974], "type": "bar", "id": "3", "color": "#a7beae", "name": "Kendall"}, {"data": [[1, 1], [0.86, 0.94], [0.82, 0.94], [0.82, 0.93], [0.78, 0.9], [0.79, 0.87], [0.76, 0.88], [0.73, 0.89], [0.7, 0.87], [0.68, 0.85], [0.72, 0.85], [0.67, 0.77], [0.34, 0.89], [0.62, 0.79], [0.47, 0.69], [0.56, 0.71], [0.53, 0.61], [0.22, 0.44], [0.22, 0.44], [0.22, 0.44], [0.22, 0.44], [0.22, 0.44], [0.22, 0.44], [0.37, 0.76], [0.36, 0.52], [0.2, 0.33], [0.31, 0.46], [0.21, 0.35], [0.21, 0.35], [0.24, 0.38], [0.22, 0.35], [0.32, 0.79], [0.33, 0.48], [0.38, 0.57], [0.29, 0.46], [0.2, 0.56], [0.45, 0.68], [0.18, 0.33], [0.39, 0.57], [0.27, 0.43], [0.27, 0.43], [0.28, 0.66], [0.33, 0.5], [0.21, 0.47], [0.29, 0.66], [0.29, 0.66], [0.31, 0.76], [0.26, 0.73], [0.25, 0.72], [0.24, 0.62], [0.08, 0.47], [0.2, 0.63], [0.2, 0.51], [0.2, 0.51], [0.33, 0.63], [0.09, 0.79], [0.2, 0.64], [0.07, 0.55], [0.21, 0.5], [0.29, 0.55], [0.02, 0.69], [0.17, 0.61], [0.0, 0.74], [0.13, 0.45], [0.0, 0.5], [0.0, 0.57], [0.0, 0.52], [0.05, 0.35], [0.0, 0.59], [0.0, 0.45], [0.0, 0.17], [0.0, 0.25], [0.0, 0.29], [0.0, 0.1], [0.0, 0.02]], "type": "errorbar", "name": "Pearsonn", "linkedTo": "1"}, {"data": [[1, 1], [0.84, 0.92], [0.79, 0.91], [0.79, 0.89], [0.76, 0.9], [0.77, 0.86], [0.75, 0.87], [0.73, 0.87], [0.7, 0.85], [0.69, 0.85], [0.71, 0.82], [0.7, 0.8], [0.62, 0.83], [0.59, 0.79], [0.59, 0.72], [0.55, 0.67], [0.56, 0.64], [0.54, 0.64], [0.54, 0.64], [0.54, 0.64], [0.54, 0.64], [0.54, 0.64], [0.54, 0.64], [0.4, 0.78], [0.52, 0.63], [0.52, 0.62], [0.52, 0.62], [0.52, 0.62], [0.52, 0.62], [0.51, 0.63], [0.51, 0.62], [0.35, 0.78], [0.5, 0.63], [0.51, 0.62], [0.51, 0.62], [0.42, 0.7], [0.45, 0.67], [0.5, 0.62], [0.5, 0.62], [0.49, 0.62], [0.49, 0.62], [0.43, 0.68], [0.49, 0.6], [0.42, 0.64], [0.36, 0.67], [0.36, 0.67], [0.32, 0.71], [0.3, 0.7], [0.28, 0.7], [0.33, 0.64], [0.31, 0.66], [0.28, 0.67], [0.32, 0.6], [0.32, 0.6], [0.33, 0.59], [0.12, 0.75], [0.25, 0.61], [0.2, 0.63], [0.28, 0.53], [0.25, 0.53], [0.03, 0.73], [0.15, 0.6], [0.0, 0.76], [0.12, 0.53], [0.07, 0.51], [0.0, 0.59], [0.0, 0.6], [0.12, 0.39], [0.0, 0.58], [0.0, 0.47], [0.0, 0.26], [0.0, 0.27], [0.0, 0.3], [0.0, 0.11], [0.0, 0.08]], "type": "errorbar", "name": "Spearman", "linkedTo": "2"}, {"data": [[1, 1], [0.69, 0.79], [0.65, 0.78], [0.64, 0.75], [0.65, 0.76], [0.65, 0.74], [0.6, 0.71], [0.57, 0.71], [0.55, 0.68], [0.53, 0.67], [0.56, 0.67], [0.55, 0.64], [0.49, 0.66], [0.47, 0.63], [0.44, 0.57], [0.41, 0.52], [0.4, 0.47], [0.39, 0.49], [0.39, 0.49], [0.39, 0.49], [0.39, 0.49], [0.39, 0.49], [0.39, 0.49], [0.31, 0.59], [0.37, 0.45], [0.38, 0.45], [0.38, 0.45], [0.38, 0.45], [0.38, 0.45], [0.37, 0.45], [0.37, 0.45], [0.28, 0.6], [0.36, 0.46], [0.37, 0.46], [0.37, 0.45], [0.34, 0.56], [0.35, 0.53], [0.36, 0.44], [0.36, 0.44], [0.36, 0.44], [0.36, 0.44], [0.34, 0.53], [0.35, 0.42], [0.33, 0.5], [0.27, 0.52], [0.27, 0.52], [0.27, 0.51], [0.25, 0.57], [0.22, 0.55], [0.26, 0.51], [0.24, 0.53], [0.22, 0.54], [0.25, 0.46], [0.25, 0.46], [0.25, 0.47], [0.1, 0.6], [0.2, 0.48], [0.16, 0.5], [0.21, 0.42], [0.19, 0.41], [0.03, 0.56], [0.13, 0.47], [0.0, 0.59], [0.08, 0.37], [0.07, 0.4], [0.0, 0.45], [0.0, 0.47], [0.1, 0.31], [0.0, 0.44], [0.0, 0.35], [0.0, 0.19], [0.0, 0.23], [0.0, 0.21], [0.0, 0.11], [0.0, 0.05]], "type": "errorbar", "name": "Kendall", "linkedTo": "3"}];
+            var dataLen = data.length;
+            for (var ix = 0; ix < dataLen; ix++) {
+                chart.addSeries(data[ix]);
+            }
+ 
+
+
+
+
+
+
+
+        
+    });
+        </script>
+
+    </body>
+</html>
