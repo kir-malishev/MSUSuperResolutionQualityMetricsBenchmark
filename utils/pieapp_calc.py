@@ -111,7 +111,7 @@ def calc_pieapp_metric(PieAPP_net, device, frames_cnt, dist_frames_path = None, 
             score += score_accum/weight_accum
             start = time.time() - start
         except:
-             imagesA = np.expand_dims(cv2.imread(dist_image),axis =0).astype('float32')
+            imagesA = np.expand_dims(cv2.imread(dist_image),axis =0).astype('float32')
             imagesRef = np.expand_dims(cv2.imread(gt_image),axis =0).astype('float32')
             _,rows,cols,ch = imagesRef.shape
 
