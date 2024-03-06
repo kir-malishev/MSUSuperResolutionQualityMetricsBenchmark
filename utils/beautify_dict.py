@@ -45,8 +45,6 @@ beautify_dict = {
     'paq2piq': 'PaQ-2-PiQ (NR; over RGB)',
     'pieapp': 'PieAPP (FR; over RGB)',
     'nima': 'NIMA (NR; over RGB)',
-    'ma' : 'Ma-Metric (NR; over RGB)',
-    'vila' : 'VILA (NR Aesthetic; over RGB)',
     'ahiq' : 'AHIQ (FR; over RGB)',
     'brisque' : 'BRISQUE (NR; over RGB)',
     'fsim' : 'FSIM (FR; over RGB)',
