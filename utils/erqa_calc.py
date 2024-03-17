@@ -7,8 +7,8 @@ import cv2
 import time
 import numpy as np
 import torch
-import erqa
-import erqa2.erqa as erqa2
+import utils.erqa
+import utils.erqa2.erqa as erqa2
 
 def Fix(s):
     return (4 - len(s)) * '0' + s
