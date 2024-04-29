@@ -7,8 +7,6 @@ import os
 
 def check_yuv(path):
     return path[-3 : len(path)] == 'yuv'
-def Fix(s):
-    return (4 - len(s)) * '0' + s
 
 
 def pyiqa_preprocess(metric_type, tmp_video_path, tmp_dir1_path, tmp_dir2_path, resolution, dist_video_path = None, gt_video_path = None, dist_frames_path = None, gt_frames_path = None):
@@ -34,20 +32,20 @@ def pyiqa_preprocess(metric_type, tmp_video_path, tmp_dir1_path, tmp_dir2_path, 
     if dist_frames_path is None:
         dist_video = imageio.get_reader(dist_video_path, 'ffmpeg')
         for frame in dist_video:
-            imageio.imwrite(os.path.join(tmp_dir1_path, 'smallframe' + Fix(str(cnt + 1)) + '.bmp'), frame)
+            imageio.imwrite(os.path.join(tmp_dir1_path, 'smallframe' + f'{cnt:04}.bmp'), frame)
              
-            small_frame = Image.open(os.path.join(tmp_dir1_path, 'smallframe' + Fix(str(cnt + 1)) + '.bmp'))
+            small_frame = Image.open(os.path.join(tmp_dir1_path, 'smallframe' + f'{cnt:04}.bmp'))
             cur_frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
-            cur_frame.save(os.path.join(tmp_dir1_path, 'frame' + Fix(str(cnt + 1)) + '.bmp'))
+            cur_frame.save(os.path.join(tmp_dir1_path, 'frame' + f'{cnt:04}.bmp'))
             cnt += 1
     else:
         cnt = len(os.listdir(dist_frames_path))
         for i in range(cnt):
-            small_frame = Image.open(os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.png'))
-            small_frame.save(os.path.join(tmp_dir1_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'))
+            small_frame = Image.open(os.path.join(dist_frames_path, f'{i:06}.png'))
+            small_frame.save(os.path.join(tmp_dir1_path, 'smallframe' + f'{i:04}.bmp'))
             
             frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
-            frame.save(os.path.join(tmp_dir1_path, 'frame' + Fix(str(i + 1)) + '.bmp'))
+            frame.save(os.path.join(tmp_dir1_path, 'frame' + f'{i:04}.bmp'))
     if metric_type == 'fr':
         if gt_frames_path is None:
             if is_yuv:
@@ -62,20 +60,20 @@ def pyiqa_preprocess(metric_type, tmp_video_path, tmp_dir1_path, tmp_dir2_path, 
                 
             i = 0
             for frame in gt_video:
-                imageio.imwrite(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'), frame)
+                imageio.imwrite(os.path.join(tmp_dir2_path, 'smallframe' + f'{i:04}.bmp'), frame)
 
-                small_frame = Image.open(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.png'))
+                small_frame = Image.open(os.path.join(tmp_dir2_path, 'smallframe' + f'{i:04}.png'))
 
                 cur_frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
-                cur_frame.save(os.path.join(tmp_dir2_path, 'frame' + Fix(str(i + 1)) + '.bmp'))
+                cur_frame.save(os.path.join(tmp_dir2_path, 'frame' + f'{i:04}.bmp'))
                 i += 1
         else:
             for i in range(cnt):
-                small_frame = Image.open(os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.png'))
-                small_frame.save(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'))
+                small_frame = Image.open(os.path.join(gt_frames_path, f'{i:06}.png'))
+                small_frame.save(os.path.join(tmp_dir2_path, 'smallframe' + f'{i:04}.bmp'))
                 
-                frame = Image.new(small_frame.mode, (max(video_height, 224), max(video_width, 224)), '#000000')
-                frame.save(os.path.join(tmp_dir2_path, 'frame' + Fix(str(i + 1)) + '.bmp'))
+                frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
+                frame.save(os.path.join(tmp_dir2_path, 'frame' + f'{i:04}.bmp'))
     return cnt
     
             
@@ -86,10 +84,10 @@ def calc_pyiqa_metric(model, metric_type, frames_cnt, dist_frames_path = None, g
     full_time = 0.0
     
     for i in tqdm(range(frames_cnt)):
-        dist_image = os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
-        small_dist_image = os.path.join(dist_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
-        gt_imame = os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
-        small_gt_image = os.path.join(gt_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
+        dist_image = os.path.join(dist_frames_path, 'frame' + f'{i:04}.bmp')
+        small_dist_image = os.path.join(dist_frames_path, 'smallframe' + f'{i:04}.bmp')
+        gt_image = os.path.join(gt_frames_path, 'frame' + f'{i:04}.bmp')
+        small_gt_image = os.path.join(gt_frames_path, 'smallframe' + f'{i:04}.bmp')
         
         try:
             if metric_type == 'nr':

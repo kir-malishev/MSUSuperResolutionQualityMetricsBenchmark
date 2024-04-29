@@ -26,11 +26,11 @@ def calc_erqa_torch_metric(model, device, frames_cnt, dist_frames_path = None, g
     device = torch.device(device)
 
     for i in tqdm(range(frames_cnt)):
-        dist_image = os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
-        small_dist_image = os.path.join(dist_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
+        dist_image = os.path.join(dist_frames_path, 'frame' + Fix(str(i)) + '.bmp')
+        small_dist_image = os.path.join(dist_frames_path, 'smallframe' + Fix(str(i)) + '.bmp')
         
-        gt_image = os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
-        small_gt_image = os.path.join(gt_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
+        gt_image = os.path.join(gt_frames_path, 'frame' + Fix(str(i)) + '.bmp')
+        small_gt_image = os.path.join(gt_frames_path, 'smallframe' + Fix(str(i)) + '.bmp')
         
         try:
             start_time = time.time()

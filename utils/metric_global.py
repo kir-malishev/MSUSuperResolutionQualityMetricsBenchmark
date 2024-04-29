@@ -17,23 +17,10 @@ import torch
 import os
 import tempfile
 import imageio.v3 as iio
+import shutil
 
 metrics_info = MetricsInfo()
 
-tmp_dir = tempfile.gettempdir()
-tmp_json1 = os.path.join(tmp_dir, 'tmp1.json')
-tmp_json2 = os.path.join(tmp_dir, 'tmp2.json')
-tmp_video = os.path.join(tmp_dir, 'tmp.mp4')
-try:
-    os.makedirs(os.path.join(tmp_dir, 'tmp1'))
-except:
-    pass
-tmp_dir1 = os.path.join(tmp_dir, 'tmp1')
-try:
-    os.makedirs(os.path.join(tmp_dir, 'tmp2'))
-except:
-    pass
-tmp_dir2 = os.path.join(tmp_dir, 'tmp2')
 
 class Metric():
     def __init__(self, metric_name, device = None):
@@ -75,7 +62,7 @@ class Metric():
             self.metric_from = 'dists'
             self.metric_type = 'fr'
             self.model = get_dists_model()
-        elif metric_name in ['lpips-vgg', 'lpips-alex']:
+        elif metric_name in ['lpips_vgg', 'lpips_alex']:
             self.metric_from = 'lpips'
             self.metric_type = 'fr'
             self.model = get_lpips_model(metric_name[6:])
@@ -108,19 +95,31 @@ class Metric():
             self.metric_type = 'fr'
             self.model = get_erqa_torch_model()
         self.device = device
+        try:
+            self.model = self.model.clone().detach()
+            #self.model.eval()
+            
+        except:
+            pass
             
     def predict(self, preprocessed=False, dist_video_path = None, gt_video_path = None, dist_frames_path = None, gt_frames_path = None):
         if self.metric_type == 'fr' and (gt_video_path is None and gt_frames_path is None):
             raise ValueError(f'Metric {self.full_metric_name} is Full-Reference, so it needs reference video')
-        
+        tmp_dir = tempfile.mkdtemp()
+        tmp_json1 = os.path.join(tmp_dir, 'tmp1.json')
+        tmp_json2 = os.path.join(tmp_dir, 'tmp2.json')
+        tmp_video = os.path.join(tmp_dir, 'tmp.mp4')
         try:
-            os.remove(tmp_json1)
+            os.makedirs(os.path.join(tmp_dir, 'tmp1'))
         except:
             pass
+        tmp_dir1 = os.path.join(tmp_dir, 'tmp1')
         try:
-            os.remove(tmp_json2)
+            os.makedirs(os.path.join(tmp_dir, 'tmp2'))
         except:
             pass
+        tmp_dir2 = os.path.join(tmp_dir, 'tmp2')
+
         
         resolution = None
             
@@ -136,50 +135,51 @@ class Metric():
                 break
         
         if self.metric_from == 'vqmt':
-            return calc_vqmt_metric(self.vqmt_metric_name, gt_video_path, dist_video_path, resolution, self.vqmt_metric_type, tmp_json1, tmp_json2)
+            res =  calc_vqmt_metric(self.vqmt_metric_name, gt_frames_path, dist_frames_path, resolution, self.vqmt_metric_type, tmp_json1, tmp_json2)
         elif self.metric_from == 'pyiqa':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_pyiqa_metric(self.pyiqa_model, self.metric_type, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_pyiqa_metric(self.pyiqa_model, self.metric_type, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'qalign':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_qalign_metric(self.model, self.metric_type, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_qalign_metric(self.model, self.metric_type, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'dists':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_dists_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_dists_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'lpips':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_lpips_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_lpips_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'nima':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_nima_metric(self.model, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_nima_metric(self.model, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'mdtvsfa':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_mdtvsfa_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_mdtvsfa_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'linearity':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_linearity_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_linearity_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'pieapp':
             if not preprocessed:    
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_pieapp_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_pieapp_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'vsfa':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_vsfa_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_vsfa_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'erqa':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_erqa_metric(self.model, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+            res =  calc_erqa_metric(self.model, self.last_frames_cnt, tmp_dir1, tmp_dir2)
         elif self.metric_from == 'erqa_torch':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
-            return calc_erqa_torch_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
-
+            res =  calc_erqa_torch_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
+        shutil.rmtree(tmp_dir)
+        return res
 
