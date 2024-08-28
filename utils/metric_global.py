@@ -11,7 +11,7 @@ from utils.linearity_calc import calc_linearity_metric, get_linearity_model
 from utils.pieapp_calc import calc_pieapp_metric, get_pieapp_model
 from utils.vsfa_calc import calc_vsfa_metric, get_vsfa_model
 from utils.erqa_calc import calc_erqa_metric, get_erqa_model
-from utils.erqa_torch_calc import calc_erqa_torch_metric, get_erqa_torch_model
+#from utils.erqa_torch_calc import calc_erqa_torch_metric, get_erqa_torch_model
 import pyiqa
 import torch
 import os
@@ -103,10 +103,11 @@ class Metric():
             self.metric_from = 'erqa'
             self.metric_type = 'fr'
             self.model = get_erqa_model(metric_name[4:].replace('_', '.'))
-        elif metric_name == 'erqa_torch':
+        '''elif metric_name == 'erqa_torch':
             self.metric_from = 'erqa_torch'
             self.metric_type = 'fr'
             self.model = get_erqa_torch_model()
+        '''
         self.device = device
             
     def predict(self, preprocessed=False, dist_video_path = None, gt_video_path = None, dist_frames_path = None, gt_frames_path = None):
@@ -136,7 +137,9 @@ class Metric():
                 break
         
         if self.metric_from == 'vqmt':
-            return calc_vqmt_metric(self.vqmt_metric_name, gt_video_path, dist_video_path, resolution, self.vqmt_metric_type, tmp_json1, tmp_json2)
+            if not preprocessed:
+                self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
+            return calc_vqmt_metric(self.vqmt_metric_name, tmp_dir2, tmp_dir1, resolution, self.vqmt_metric_type, tmp_json1, tmp_json2)
         elif self.metric_from == 'pyiqa':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
@@ -177,9 +180,9 @@ class Metric():
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
             return calc_erqa_metric(self.model, self.last_frames_cnt, tmp_dir1, tmp_dir2)
-        elif self.metric_from == 'erqa_torch':
+        '''elif self.metric_from == 'erqa_torch':
             if not preprocessed:
                 self.last_frames_cnt = pyiqa_preprocess(self.metric_type, tmp_video, tmp_dir1, tmp_dir2, resolution, dist_video_path, gt_video_path, dist_frames_path, gt_frames_path)
             return calc_erqa_torch_metric(self.model, self.device, self.last_frames_cnt, tmp_dir1, tmp_dir2)
-
+        '''
 

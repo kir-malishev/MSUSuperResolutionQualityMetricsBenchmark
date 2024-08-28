@@ -43,7 +43,7 @@ def pyiqa_preprocess(metric_type, tmp_video_path, tmp_dir1_path, tmp_dir2_path, 
     else:
         cnt = len(os.listdir(dist_frames_path))
         for i in range(cnt):
-            small_frame = Image.open(os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.png'))
+            small_frame = Image.open(os.path.join(dist_frames_path, sorted(os.listdir(dist_frames_path))[i]))
             small_frame.save(os.path.join(tmp_dir1_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'))
             
             frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
@@ -64,17 +64,18 @@ def pyiqa_preprocess(metric_type, tmp_video_path, tmp_dir1_path, tmp_dir2_path, 
             for frame in gt_video:
                 imageio.imwrite(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'), frame)
 
-                small_frame = Image.open(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.png'))
+                small_frame = Image.open(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'))
 
                 cur_frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
                 cur_frame.save(os.path.join(tmp_dir2_path, 'frame' + Fix(str(i + 1)) + '.bmp'))
                 i += 1
         else:
             for i in range(cnt):
-                small_frame = Image.open(os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.png'))
+                small_frame = Image.open(os.path.join(gt_frames_path, sorted(os.listdir(dist_frames_path))[i]))
+                #small_frame = Image.open(os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.png'))
                 small_frame.save(os.path.join(tmp_dir2_path, 'smallframe' + Fix(str(i + 1)) + '.bmp'))
                 
-                frame = Image.new(small_frame.mode, (max(video_height, 224), max(video_width, 224)), '#000000')
+                frame = Image.new(small_frame.mode, (max(video_width, 224), max(video_height, 224)), '#000000')
                 frame.save(os.path.join(tmp_dir2_path, 'frame' + Fix(str(i + 1)) + '.bmp'))
     return cnt
     
@@ -88,7 +89,7 @@ def calc_pyiqa_metric(model, metric_type, frames_cnt, dist_frames_path = None, g
     for i in tqdm(range(frames_cnt)):
         dist_image = os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
         small_dist_image = os.path.join(dist_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
-        gt_imame = os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
+        gt_image = os.path.join(gt_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
         small_gt_image = os.path.join(gt_frames_path, 'smallframe' + Fix(str(i + 1)) + '.bmp')
         
         try:

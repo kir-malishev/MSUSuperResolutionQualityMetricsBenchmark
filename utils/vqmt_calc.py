@@ -2,6 +2,8 @@ import os
 import json
 
 def is_yuv(path):
+    if path is None:
+        return False
     return path[-3 : len(path)] == 'yuv'
 def run(cmd):
     return os.system(cmd)
@@ -49,7 +51,7 @@ def calc_vqmt_metric(name, gtpath, distpath, resolution, mtype, tmp_json1, tmp_j
         else:
             r = run(cmd1 + cmd2)
         with open(res, 'r') as f:
-                obj = json.load(f)
+            obj = json.load(f)
         score = obj['accumulated']['mean']['A']
         fulltime = get_time()
 

@@ -32,6 +32,7 @@ def calc_lpips_metric(model, device, frames_cnt, dist_frames_path = None, gt_fra
     full_time = 0.0
 
     device = torch.device(device)
+    model.to(device)
         
     for i in tqdm(range(frames_cnt)):
         dist_image = os.path.join(dist_frames_path, 'frame' + Fix(str(i + 1)) + '.bmp')
